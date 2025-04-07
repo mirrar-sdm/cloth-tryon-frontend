@@ -36,7 +36,7 @@ export default function Main() {
       redirect: "follow",
     };
     setLoader(true);
-    fetch("http://127.0.0.1:5000/try-on", requestOptions)
+    fetch("https://api.clothing.mirrar.com/try-on", requestOptions)
       .then((response) => response.json())
       .then(async (result) => {
         if (result?.output_image_url) {
