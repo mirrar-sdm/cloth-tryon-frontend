@@ -26,9 +26,9 @@ export default function Main() {
     });
     // console.log(imagefile);
     // console.log(clothfile);
-    formdata.append("image", imagefile);
+    formdata.append("model_image", imagefile);
     formdata.append("garment_image", clothfile);
-    formdata.append("outfit_type", bodyType);
+    // formdata.append("outfit_type", bodyType);
 
     const requestOptions = {
       method: "POST",
@@ -36,16 +36,20 @@ export default function Main() {
       redirect: "follow",
     };
     setLoader(true);
-    fetch("https://clothing.mirrar.com/tryon", requestOptions)
+    fetch("http://127.0.0.1:5000/try-on", requestOptions)
       .then((response) => response.json())
       .then(async (result) => {
         if (result?.output_image_url) {
-          setOuputImage(result?.output_image_url);
+          console.log(result)
+          setOuputImage(result?.output_image_url[0]);
           try {
             let blob = await (await fetch(result?.output_image_url))?.blob();
             console.log(blob);
             setOutputImageBlob(blob);
-          } catch (error) {}
+          } catch (error) {
+
+            console.log(error)
+          }
         } else if (result?.status_code != 200) {
           alert("Something went wrong, Try again later");
         }
@@ -123,13 +127,13 @@ export default function Main() {
             }}
             className=" w-[33%] h-full"
           >
-            <div
+            {/* <div
               onClick={(e) => {
                 e?.stopPropagation();
               }}
               className="w-full h-[8%] p-1 mb-[1%] rounded-[10px] border-[#AFAFAF] border-[1px] flex justify-center"
-            >
-              <select
+            > */}
+            {/* <select
                 onChange={(e) => {
                   setBodyType(e.target.value);
                   setClothImage("");
@@ -141,8 +145,8 @@ export default function Main() {
               >
                 <option value="upper_body">Upper body</option>
                 <option value="lower_body">Lower body</option>
-              </select>
-            </div>
+              </select> */}
+            {/* </div> */}
             <div className="cursor-pointer h-[91%] shrink-0 bg-[#f9f9f9] rounded-[9.458px] border-dashed border-[0.95px] border-[#afafaf] flex justify-center items-center flex-col">
               {clothImage ? (
                 <img
